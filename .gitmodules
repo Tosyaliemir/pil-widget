@@ -1,0 +1,4 @@
+[submodule "vendor/wireless-battery"]
+	path = vendor/wireless-battery
+	url = https://github.com/Tosyaliemir/Wireless-Device-Battery-Monitor.git
+	branch = json-cikti

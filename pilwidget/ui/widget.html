@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="tr" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<title>Pil Widget</title>
+<link rel="stylesheet" href="widget.css">
+</head>
+<body>
+<div class="w nano" id="w">
+  <header class="bar" id="bar">
+    <div class="lead">
+      <span class="grip" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="ttl">Batarya</span>
+      <span class="dot" id="dot" title="Aktif cihaz yok"></span>
+    </div>
+    <div class="ctl" id="ctl">
+      <button type="button" class="b-size" id="b-size" title="Boyut: Nano / Mini / Detay"><span id="b-size-t">Nano</span></button>
+      <button type="button" class="ib" id="b-theme" title="Tema" aria-label="Tema"></button>
+      <button type="button" class="ib" id="b-lock" title="Konumu kilitle" aria-label="Konumu kilitle" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>
+      </button>
+    </div>
+  </header>
+  <ul class="items" id="items"></ul>
+</div>
+<script src="ortak.js"></script>
+<script src="widget.js"></script>
+</body>
+</html>

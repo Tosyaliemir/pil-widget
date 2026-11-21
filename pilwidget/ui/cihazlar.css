@@ -1,0 +1,183 @@
+/* Cihazlar penceresi: Momentum Kontrol arayüzüyle aynı dil (Geist, bakır vurgu, kart) */
+@font-face { font-family: "Geist"; font-weight: 100 900; font-display: block;
+  src: url(fonts/geist-latin-wght-normal.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Geist"; font-weight: 100 900; font-display: block;
+  src: url(fonts/geist-latin-ext-wght-normal.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist Mono"; font-weight: 100 900; font-display: block;
+  src: url(fonts/geist-mono-latin-wght-normal.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+
+:root {
+  --bg: #131313;
+  --surface: #1a1a1a;
+  --surface-2: #222222;
+  --surface-3: #2b2b2b;
+  --line: rgba(236, 232, 226, 0.07);
+  --line-strong: rgba(236, 232, 226, 0.13);
+  --text: #ece8e2;
+  --text-2: #a9a49d;
+  --muted: #6f6b65;
+  --accent: #c9804c;
+  --accent-soft: rgba(201, 128, 76, 0.14);
+  --accent-ink: #1c130c;
+  --ok: #10B981; --mid: #F59E0B; --low: #EF4444; --chg: #38BDF8; --slp: #64748B;
+  --chg-soft: rgba(56, 189, 248, 0.14);
+  --r-card: 16px;
+  --r-ctl: 9px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --font: "Geist", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --mono: "Geist Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+/* Tema: html[data-theme] = dark | light | auto (auto Windows'u izler) */
+:root[data-theme="light"] {
+    --bg: #eeece8;
+    --surface: #f8f7f4;
+    --surface-2: #efede9;
+    --surface-3: #e3e0da;
+    --line: rgba(20, 20, 20, 0.08);
+    --line-strong: rgba(20, 20, 20, 0.15);
+    --text: #1b1a19;
+    --text-2: #55524d;
+    --muted: #8a867f;
+    --accent: #b5683a;
+    --accent-soft: rgba(181, 104, 58, 0.14);
+    --accent-ink: #fff7f0;
+    --ok: #059669; --mid: #D97706; --low: #DC2626; --chg: #0284C7; --slp: #64748B;
+    --chg-soft: rgba(2, 132, 199, 0.12);
+    color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root[data-theme="auto"], :root:not([data-theme]) {
+      --bg: #eeece8;
+      --surface: #f8f7f4;
+      --surface-2: #efede9;
+      --surface-3: #e3e0da;
+      --line: rgba(20, 20, 20, 0.08);
+      --line-strong: rgba(20, 20, 20, 0.15);
+      --text: #1b1a19;
+      --text-2: #55524d;
+      --muted: #8a867f;
+      --accent: #b5683a;
+      --accent-soft: rgba(181, 104, 58, 0.14);
+      --accent-ink: #fff7f0;
+      --ok: #059669; --mid: #D97706; --low: #DC2626; --chg: #0284C7; --slp: #64748B;
+      --chg-soft: rgba(2, 132, 199, 0.12);
+      color-scheme: light;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font: 14px/1.5 var(--font); -webkit-font-smoothing: antialiased; user-select: none; }
+button, input { font: inherit; color: inherit; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+[hidden] { display: none !important; }
+
+#app { max-width: 460px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; }
+.page-title { margin: 4px 4px -4px; font-size: 20px; font-weight: 500; letter-spacing: -0.02em; }
+.card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card); padding: 20px; }
+.card h2 { margin: 0 0 12px; font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.card-head h2 { margin: 0; }
+
+.row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+h2 + .row { border-top: 0; padding-top: 4px; }
+.row.stack { flex-direction: column; align-items: stretch; gap: 10px; }
+.row .lbl, .switch > span { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.row .lbl b, .switch b { font-weight: 400; }
+.row small { color: var(--muted); font-size: 12px; }
+.switch { cursor: pointer; justify-content: space-between; }
+.row[data-needs] { transition: opacity .25s; }
+.row.dim { opacity: .4; pointer-events: none; }
+
+/* Anahtar */
+input[type=checkbox] {
+  appearance: none; flex: 0 0 auto; width: 38px; height: 22px; border-radius: 11px; margin: 0;
+  background: var(--surface-3); border: 1px solid var(--line-strong); position: relative; cursor: pointer;
+  transition: background .25s var(--ease), border-color .25s;
+}
+input[type=checkbox]::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 8px;
+  background: var(--text-2); transition: transform .3s var(--ease), width .2s var(--ease), background .25s;
+}
+input[type=checkbox]:checked { background: var(--accent); border-color: var(--accent); }
+input[type=checkbox]:checked::after { transform: translateX(16px); background: var(--accent-ink); }
+input[type=checkbox]:active::after { width: 20px; }
+input[type=checkbox]:checked:active::after { transform: translateX(12px); }
+
+/* Bölümlü seçici */
+.seg { position: relative; display: grid; padding: 4px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; }
+.seg-2 { grid-template-columns: repeat(2, 1fr); --n: 2; }
+.seg-3 { grid-template-columns: repeat(3, 1fr); --n: 3; }
+.seg-4 { grid-template-columns: repeat(4, 1fr); --n: 4; }
+.seg-4 button { font-size: 13px; padding: 9px 2px; white-space: nowrap; }
+.seg .thumb {
+  position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / var(--n));
+  border-radius: 8px; background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--line-strong);
+  transform: translateX(calc(var(--i, 0) * 100%)); transition: transform .35s var(--ease);
+}
+.seg button { position: relative; border: 0; background: none; padding: 9px 4px; border-radius: 8px; color: var(--text-2); cursor: pointer; transition: color .25s; }
+.seg button:hover, .seg button[aria-checked=true] { color: var(--text); }
+
+.btn { border: 1px solid var(--line-strong); background: var(--surface-2); border-radius: var(--r-ctl); padding: 7px 14px; cursor: pointer; transition: background .2s, transform .1s; }
+.btn:hover { background: var(--surface-3); }
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .4; cursor: default; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Cihaz listesi */
+.batlist { list-style: none; margin: 0 -8px 12px; padding: 0; display: grid; gap: 2px; }
+.batlist li { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 10px; cursor: pointer; transition: background .2s, opacity .3s; }
+.batlist li:hover { background: var(--surface-2); }
+.batlist li.sel { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.kind { width: 22px; height: 22px; flex: 0 0 auto; color: var(--text-2); }
+.kind .acc { fill: var(--acc); }
+.kind .acc-s { stroke: var(--acc); }
+/* Durum -> aksan rengi (kitteki 5 durum) */
+.st-ok { --acc: var(--ok); }
+.st-mid { --acc: var(--mid); }
+.st-low { --acc: var(--low); }
+.st-chg { --acc: var(--chg); }
+.st-slp, .st-unk { --acc: var(--slp); }
+.bolt-s { width: 8px; height: 11px; fill: var(--chg); flex: 0 0 auto; }
+.batlist .nm { flex: 1; min-width: 0; display: grid; }
+.batlist .nm b { font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.batlist .nm small { color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.batlist .pct { font-size: 13px; min-width: 40px; text-align: right; }
+.batlist li.st-mid .pct, .batlist li.st-low .pct, .batlist li.st-chg .pct { color: var(--acc); }
+.batlist li.st-slp, .batlist li.st-unk { opacity: .45; }
+@keyframes lowPulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+@keyframes boltPulse { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
+.batlist li.st-low .pct, .big.st-low { animation: lowPulse 1.8s ease-in-out infinite; }
+.bolt-s { animation: boltPulse 1.6s ease-in-out infinite; }
+.batlist .empty { color: var(--muted); cursor: default; padding: 12px 8px; }
+.batlist .empty:hover { background: none; }
+.mini-ring { flex: 0 0 auto; transform: rotate(-90deg); }
+.mini-ring circle { fill: none; stroke-width: 2.4; }
+.mini-ring .track { stroke: var(--line-strong); }
+.mini-ring .val { stroke: var(--acc, var(--text)); stroke-linecap: round; transition: stroke-dasharray .9s var(--ease); }
+
+.bat-err { color: var(--low); font-size: 13px; margin: -4px 0 12px; }
+.pref-err { color: var(--low); font-size: 12px; margin: 4px 0 8px; }
+.bat-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 12px; border-top: 1px solid var(--line); margin-bottom: 8px; }
+.bat-name { color: var(--text-2); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bat-head .muted { font-size: 12px; }
+.bat-figure { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.bat-figure .big { font-size: 34px; letter-spacing: -0.03em; line-height: 1; }
+.bat-figure .big.st-mid, .bat-figure .big.st-low, .bat-figure .big.st-chg { color: var(--acc); }
+#bat-chart { display: block; width: 100%; height: 120px; overflow: visible; }
+#bat-chart .grid { stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
+#bat-chart .line { fill: none; stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+#bat-chart .area { fill: var(--accent-soft); }
+#bat-chart .chg { fill: var(--chg-soft); }
+.bat-axis { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; margin-top: 6px; }
+.bat-empty { font-size: 13px; margin: 8px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

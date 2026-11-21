@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="tr" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<title>Pil Kontrol</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="cihazlar.css">
+</head>
+<body>
+<main id="app">
+  <h1 class="page-title">Pil Kontrol</h1>
+  <section class="card" aria-labelledby="t-dev">
+    <div class="card-head">
+      <h2 id="t-dev">Cihazlar</h2>
+      <button class="btn ghost" id="btn-refresh" type="button" title="Cihazları yeniden tara">Yenile</button>
+    </div>
+    <ul class="batlist" id="batlist" aria-label="Kablosuz cihazlar"></ul>
+    <p class="bat-err" id="bat-err" hidden>Diğer cihazlar okunamadı</p>
+    <div id="detail">
+      <div class="bat-head">
+        <span class="bat-name" id="bat-name"></span>
+        <span class="muted num">Son 24 saat</span>
+      </div>
+      <div class="bat-figure">
+        <span class="big num" id="bat-big">—</span>
+        <span class="muted" id="bat-sub"></span>
+      </div>
+      <svg id="bat-chart" viewBox="0 0 400 120" preserveAspectRatio="none" aria-label="Pil geçmişi"></svg>
+      <div class="bat-axis num" id="bat-axis"></div>
+      <p class="bat-empty muted" id="bat-empty" hidden>Uygulama açık kaldıkça pil geçmişi burada birikir.</p>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="t-wid">
+    <h2 id="t-wid">Masaüstü widget'ı</h2>
+    <label class="row switch"><span><b>Widget açık</b><small>Masaüstüne gömülü küçük pil göstergesi</small></span><input type="checkbox" data-pref="widget_on"></label>
+    <div class="row stack" data-needs="widget_on">
+      <span class="lbl"><b>Boyut</b></span>
+      <div class="seg seg-3" data-seg="size" role="radiogroup" aria-label="Widget boyutu" style="--i:0">
+        <span class="thumb"></span>
+        <button type="button" role="radio" data-v="nano" aria-checked="true">Nano</button>
+        <button type="button" role="radio" data-v="mini" aria-checked="false">Mini</button>
+        <button type="button" role="radio" data-v="detay" aria-checked="false">Detay</button>
+      </div>
+    </div>
+    <div class="row stack" data-needs="widget_on">
+      <span class="lbl"><b>Tema</b><small>Otomatik, Windows'un açık/koyu ayarını izler</small></span>
+      <div class="seg seg-3" data-seg="theme" role="radiogroup" aria-label="Tema" style="--i:0">
+        <span class="thumb"></span>
+        <button type="button" role="radio" data-v="auto" aria-checked="true">Otomatik</button>
+        <button type="button" role="radio" data-v="dark" aria-checked="false">Koyu</button>
+        <button type="button" role="radio" data-v="light" aria-checked="false">Açık</button>
+      </div>
+    </div>
+    <label class="row switch" data-needs="widget_on"><span><b>Konumu kilitle</b><small>Widget sürüklenemez</small></span><input type="checkbox" data-pref="locked"></label>
+  </section>
+
+  <section class="card" aria-labelledby="t-tb">
+    <h2 id="t-tb">Görev çubuğu</h2>
+    <div class="row stack">
+      <span class="lbl"><b>Görünüm</b><small>Pil durumu, saatin yanındaki görev çubuğunda</small></span>
+      <div class="seg seg-4" data-seg="taskbar" role="radiogroup" aria-label="Görev çubuğu görünümü" style="--i:0">
+        <span class="thumb"></span>
+        <button type="button" role="radio" data-v="kapali" aria-checked="true">Kapalı</button>
+        <button type="button" role="radio" data-v="simge" aria-checked="false">Sadece simge</button>
+        <button type="button" role="radio" data-v="yuzde" aria-checked="false">Simge + %</button>
+        <button type="button" role="radio" data-v="kapsul" aria-checked="false">Cam kapsül</button>
+      </div>
+    </div>
+    <div class="row stack" data-needs="taskbar">
+      <span class="lbl"><b>Konum</b><small>Görev çubuğunun solunda ya da bildirim alanının yanında</small></span>
+      <div class="seg seg-2" data-seg="taskbar_pos" role="radiogroup" aria-label="Görev çubuğu konumu" style="--i:0">
+        <span class="thumb"></span>
+        <button type="button" role="radio" data-v="sol" aria-checked="true">Sol</button>
+        <button type="button" role="radio" data-v="sag" aria-checked="false">Sağ</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="t-gen">
+    <h2 id="t-gen">Genel</h2>
+    <label class="row switch"><span><b>Düşük pil bildirimi</b><small>Bir cihaz %15'in altına inince haber verir</small></span><input type="checkbox" data-pref="low_notify"></label>
+    <label class="row switch"><span><b>Windows ile başlat</b><small>Oturum açılınca Pil Widget kendiliğinden gelir</small></span><input type="checkbox" data-pref="autostart"></label>
+    <p class="pref-err" id="pref-err" role="alert" hidden></p>
+  </section>
+</main>
+<script src="ortak.js"></script>
+<script src="cihazlar.js"></script>
+</body>
+</html>
